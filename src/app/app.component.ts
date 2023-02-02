@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "./services/auth.service";
 import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ import {Observable} from "rxjs";
           <ng-container >
             <button *ngIf="isLoggedOut$ | async" class="btn btn-primary m-2" routerLink="auth/login">Login</button>
             <button *ngIf="isLoggedOut$ | async" class="btn btn-primary m-2" routerLink="auth/register">register</button>
-            <button *ngIf="isLoggedIn$ | async" class="btn btn-primary m-2" routerLink="api/logout">logout</button>
+            <button *ngIf="isLoggedIn$ | async" class="btn btn-primary m-2" (click)="logout()" >logout</button>
             <button *ngIf="isLoggedIn$ | async" class="btn btn-primary m-2" routerLink="lessons">Lessons</button>
           </ng-container>
 
@@ -36,7 +37,7 @@ export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean> | undefined
   isLoggedOut$: Observable<boolean> | undefined
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -45,4 +46,9 @@ export class AppComponent implements OnInit {
   }
 
 
+  logout() {
+    this.authService.logout().subscribe(() => {
+      this.router.navigateByUrl('/')
+    })
+  }
 }

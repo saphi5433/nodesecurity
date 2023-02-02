@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'app-lessons',
@@ -40,7 +40,7 @@ export class LessonsComponent implements OnInit {
   }
 
   getLessons(): Observable<{id: number, name: string}[]> {
-    return this.http.get<{id: number, name: string}[]>('api/users')
+    return this.http.get<{ lessons: { id: number, name: string }[] }>('api/lessons').pipe(map(res => res.lessons))
   }
 
 }

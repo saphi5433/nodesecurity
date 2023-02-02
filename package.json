@@ -1,9 +1,12 @@
 {
   "name": "node-security",
   "version": "0.0.0",
+  "notes": {
+    "extra-cli-options": "--ssl true --ssl-key server/cert/key.pem --ssl-cert server/cert/cert.pem"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config ./proxy.json",
+    "start": "ng serve --proxy-config ./proxy.json --ssl true --ssl-key cert/key.pem --ssl-cert cert/certificate.pem",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -24,6 +27,7 @@
     "daisyui": "^2.46.0",
     "express": "^4.18.2",
     "http-errors": "^2.0.0",
+    "moment": "^2.29.4",
     "morgan": "^1.10.0",
     "password-validator": "^5.3.0",
     "rxjs": "~7.5.0",
