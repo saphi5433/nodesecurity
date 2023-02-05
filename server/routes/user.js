@@ -1,15 +1,13 @@
 let express = require('express');
-const {sessionStore} = require("../data/db");
+const {db} = require("../data/db");
 let router = express.Router()
 
 
 router.get('/', (req, res) => {
-  const sessionId = req.cookies['SESSIONID']
-
-  const user = sessionStore.findUserBySessionId(sessionId)
+  const user = db.findUserById(req["userId"])
 
   if(user){
-    res.status(200).json(user)
+    res.status(200).json({id: user.id, email: user.email})
   } else {
     res.sendStatus(204)
   }

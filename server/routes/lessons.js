@@ -1,20 +1,11 @@
-let {db, sessionStore} = require('../data/db')
+let {db} = require('../data/db')
 var express = require('express');
+const {checkIfAuthenticated} = require("../middleware/auth.middleware");
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-
-  const sessionId = req.cookies["SESSIONID"]
-
-  const isSessionValid = sessionStore.isSessionValid(sessionId)
-
-  if (!isSessionValid) {
-    res.sendStatus(403)
-  } else {
-    res.status(200).json({lessons: db.getLessons()});
-  }
-
+router.get('/', checkIfAuthenticated, function (req, res) {
+  res.status(200).json({lessons: db.getLessons()});
 });
 
 module.exports = router;

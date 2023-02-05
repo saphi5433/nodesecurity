@@ -4,19 +4,18 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('server:server');
-var http = require('http');
-var https = require('https');
-var fs = require('fs');
+const app = require('../app');
+const debug = require('debug')('server:server');
+const https = require('https');
+const {PRIVATE_KEY, PUBLIC_KEY} = require("../data/security.utils");
 
 /**
  * Get port from environment and store in Express.
  */
 
 var options = {
-  key: fs.readFileSync('cert/key.pem'),
-  cert: fs.readFileSync('cert/certificate.pem')
+  key: PRIVATE_KEY,
+  cert: PUBLIC_KEY
 };
 
 var port = normalizePort(process.env.PORT || '3000');

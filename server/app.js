@@ -1,22 +1,23 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-let indexRouter = require('./routes/index');
-let lessonsRouter = require('./routes/lessons');
-let authRouter = require('./routes/auth');
-let userRouter = require('./routes/user')
+const indexRouter = require('./routes/index');
+const lessonsRouter = require('./routes/lessons');
+const authRouter = require('./routes/auth/auth');
+const userRouter = require('./routes/user')
+const {retrieveUserIdFromRequest} = require("./middleware/getUser.middleware");
 
-let app = express();
+const app = express();
 
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(retrieveUserIdFromRequest)
 
 app.use('/', indexRouter);
 app.use('/lessons', lessonsRouter);
@@ -29,7 +30,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
