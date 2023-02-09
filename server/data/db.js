@@ -1,6 +1,5 @@
 let LessonsData = require('./LessonsData')
 let UsersData = require('./UsersData')
-const {toNumbers} = require("@angular/compiler-cli/src/version_helpers");
 
 class InMemoryDb {
   userCounter = 4
@@ -12,7 +11,9 @@ class InMemoryDb {
   createUser(email, passwordDigest){
     const id = this.userCounter++;
 
-    // TODO: control if email alredy registred
+    if(UsersData.find(user => user.email === email)){
+      throw Error("Email already registered")
+    }
 
     const user = {
       id,
@@ -34,7 +35,7 @@ class InMemoryDb {
   }
 
   findUserById(id) {
-    return UsersData.find(user => user.id === toNumbers(id));
+    return UsersData.find(user => user.id == id);
   }
 }
 

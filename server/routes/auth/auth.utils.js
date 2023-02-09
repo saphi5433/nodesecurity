@@ -28,20 +28,29 @@ async function loginAndBuildResponse(res, credentials, user){
 
 
 async function createUserAndSession(res, credentials){
-  // crea il digest della password
-  const passwordDigest = await argon2.hash(credentials.password)
+  try {
+    // crea il digest della password
+    const passwordDigest = await argon2.hash(credentials.password)
 
-  // salva l'utente nel db
-  const user = db.createUser(credentials.email, passwordDigest)
+    // salva l'utente nel db
+    const user = db.createUser(credentials.email, passwordDigest)
 
-  console.log(db.getUsers())
 
-  // crea il jwt
-  const sessionToken = await createSessionToken(user.id.toString())
 
-  setSessionToken(res, sessionToken)
+    console.log(db.getUsers())
 
-  res.status(200).json({id: user.id, email: user.email})
+    // crea il jwt
+    const sessionToken = await createSessionToken(user.id.toString())
+
+    setSessionToken(res, sessionToken)
+
+    res.status(200).json({id: user.id, email: user.email})
+  } catch (err){
+    console.log("email già registrata", err)
+    res.sendStatus(403)
+  }
+
+
 }
 
 function setSessionToken (res, sessionToken){

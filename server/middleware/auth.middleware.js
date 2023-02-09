@@ -4,6 +4,7 @@ function checkIfAuthenticated(req, res, next){
   } else {
     res.sendStatus(403)
   }
+
 }
 
 module.exports = {checkIfAuthenticated}

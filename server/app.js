@@ -29,7 +29,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+
 app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -39,5 +39,6 @@ app.use(function(err, req, res) {
   res.status(err.status || 500);
   res.json({error: 'error'});
 });
+
 
 module.exports = app;

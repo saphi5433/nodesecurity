@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "./services/auth.service";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {Router} from "@angular/router";
 
 @Component({
@@ -19,8 +19,9 @@ import {Router} from "@angular/router";
           <ng-container >
             <button *ngIf="isLoggedOut$ | async" class="btn btn-primary m-2" routerLink="auth/login">Login</button>
             <button *ngIf="isLoggedOut$ | async" class="btn btn-primary m-2" routerLink="auth/register">register</button>
-            <button *ngIf="isLoggedIn$ | async" class="btn btn-primary m-2" (click)="logout()" >logout</button>
-            <button *ngIf="isLoggedIn$ | async" class="btn btn-primary m-2" routerLink="lessons">Lessons</button>
+            <button *ngIf="isLoggedIn$ | async" class="btn btn-primary m-2" (click)="logout()" >logout ({{userEmail$ | async}})</button>
+            <button class="btn btn-primary m-2" routerLink="lessons">Lessons</button>
+            <button class="btn btn-primary m-2" routerLink="admin">Admin</button>
           </ng-container>
 
         </div>
@@ -36,6 +37,8 @@ export class AppComponent implements OnInit {
 
   isLoggedIn$: Observable<boolean> | undefined
   isLoggedOut$: Observable<boolean> | undefined
+
+  userEmail$: Observable<string> = this.authService.user$.pipe(map(user => user.email))
 
   constructor(private authService: AuthService, private router: Router) {
   }

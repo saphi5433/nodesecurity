@@ -1,8 +1,6 @@
 const UsersData = [
-  {id: 0, email: '', passwordDigest: ''},
-  {id: 1, email: '', passwordDigest: ''},
-  {id: 2, email: '', passwordDigest: ''},
-  {id: 3, email: '', passwordDigest: ''},
+  {id: 1, email: 'admin@angular-university.io', passwordDigest: '$argon2id$v=19$m=65536,t=3,p=4$wOTRUdkaOlseqYNPHXnR1Q$X2YyZQbEamnQ7LABkKr9ZKLpHQRUlVbwEEZkTOBY/Do'},
+  {id: 2, email: 'test@angular-university.io', passwordDigest: '$argon2id$v=19$m=65536,t=3,p=4$BQpjx6eKpe4j1435yKAUGg$1FrEkyshiojJlPsAk2AsDaXuOklvxraqCXwfnwO2E9E'},
 ]
 
 module.exports =  UsersData
