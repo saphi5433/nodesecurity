@@ -5,18 +5,19 @@ import {HttpClient} from "@angular/common/http";
 
 export const ANONYMOUS_USER: UserInterface = {
   id: undefined,
-  email: ''
+  email: '',
+  roles: []
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   private subject: Subject<UserInterface> = new ReplaySubject<UserInterface>(1)
   user$: Observable<UserInterface> = this.subject.asObservable().pipe(filter(user => !!user));
   isLoggedIn$: Observable<boolean> = this.user$.pipe(map(user => !!user.id))
   isLoggedOut$: Observable<boolean> = this.isLoggedIn$.pipe(map(isLogged => !isLogged))
-
 
   constructor(private http: HttpClient) {
     this.http.get<UserInterface>('/api/user')
@@ -58,6 +59,14 @@ export class AuthService {
       .pipe(
         shareReplay(),
         tap(() => this.subject.next(ANONYMOUS_USER))
+      )
+  }
+
+  loginAsUser(email: string): Observable<any> {
+    return this.http.post<any>('/api/admin/impersonate', {email})
+      .pipe(
+        shareReplay(),
+        tap(user => this.subject.next(user))
       )
   }
 }

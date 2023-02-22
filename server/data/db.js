@@ -2,7 +2,7 @@ let LessonsData = require('./LessonsData')
 let UsersData = require('./UsersData')
 
 class InMemoryDb {
-  userCounter = 4
+  userCounter = UsersData.length + 1
 
   getLessons() {
     return LessonsData
@@ -11,7 +11,7 @@ class InMemoryDb {
   createUser(email, passwordDigest){
     const id = this.userCounter++;
 
-    if(UsersData.find(user => user.email === email)){
+    if(UsersData.find(user => user.email == email)){
       throw Error("Email already registered")
     }
 

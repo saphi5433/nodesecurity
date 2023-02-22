@@ -1,5 +1,5 @@
 function checkIfAuthenticated(req, res, next){
-  if(req['userId']){
+  if(req['user']){
     next()
   } else {
     res.sendStatus(403)

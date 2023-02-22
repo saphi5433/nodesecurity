@@ -6,12 +6,12 @@ async function attempLogin(credentials, user)  {
   // verifica che la password corrisponde
   const isPasswordValid = await argon2.verify(user.passwordDigest, credentials.password)
 
-
   if(!isPasswordValid){
     throw new Error("Password Invalid")
   }
 
-  return createSessionToken(user.id.toString())
+
+  return createSessionToken(user)
 
 }
 
@@ -19,9 +19,9 @@ async function loginAndBuildResponse(res, credentials, user){
   try {
     // controlla se la password è corretta e genera il jwt
     const sessionToken = await attempLogin(credentials, user)
-
     setSessionToken(res, sessionToken)
-    res.status(200).json({id: user.id, email: user.email})
+
+    res.status(200).json({id: user.id, email: user.email, roles: user.roles})
 
   } catch(err){res.sendStatus(403)}
 }
@@ -40,7 +40,7 @@ async function createUserAndSession(res, credentials){
     console.log(db.getUsers())
 
     // crea il jwt
-    const sessionToken = await createSessionToken(user.id.toString())
+    const sessionToken = await createSessionToken(user)
 
     setSessionToken(res, sessionToken)
 
@@ -57,4 +57,4 @@ function setSessionToken (res, sessionToken){
   res.cookie("SESSIONID", sessionToken, { httpOnly: true , secure: true, sameSite: "strict"})
 }
 
-module.exports = {createUserAndSession, loginAndBuildResponse}
+module.exports = {createUserAndSession, loginAndBuildResponse, setSessionToken}

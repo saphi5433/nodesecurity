@@ -16,9 +16,10 @@ const retrieveUserIdFromRequest = (req, res, next) => {
 
 async function handleSessionCookie(jwt, req){
   try {
+
     const payload = await decodeJwt(jwt)
 
-    req["userId"] = payload.sub
+    req["user"] = payload
   } catch(err){console.log(err.message)}
 
 }

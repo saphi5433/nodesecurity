@@ -25,7 +25,9 @@ router.post('/register', function (req, res) {
 router.post('/login', function (req, res) {
   const credentials = req.body;
 
+
   const user = db.findUserByEmail(credentials.email)
+
 
   if (!user) {
     res.sendStatus(403)

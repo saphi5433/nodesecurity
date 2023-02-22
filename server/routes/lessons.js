@@ -4,7 +4,7 @@ const {checkIfAuthenticated} = require("../middleware/auth.middleware");
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', checkIfAuthenticated, function (req, res) {
+router.get('/', function (req, res) {
   res.status(200).json({lessons: db.getLessons()});
 });
 

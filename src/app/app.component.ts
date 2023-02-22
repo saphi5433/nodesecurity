@@ -19,9 +19,13 @@ import {Router} from "@angular/router";
           <ng-container >
             <button *ngIf="isLoggedOut$ | async" class="btn btn-primary m-2" routerLink="auth/login">Login</button>
             <button *ngIf="isLoggedOut$ | async" class="btn btn-primary m-2" routerLink="auth/register">register</button>
-            <button *ngIf="isLoggedIn$ | async" class="btn btn-primary m-2" (click)="logout()" >logout ({{userEmail$ | async}})</button>
-            <button class="btn btn-primary m-2" routerLink="lessons">Lessons</button>
-            <button class="btn btn-primary m-2" routerLink="admin">Admin</button>
+
+            <ng-container *ngIf="isLoggedIn$ | async">
+              <button class="btn btn-primary m-2" (click)="logout()" >logout ({{userEmail$ | async}})</button>
+              <button class="btn btn-primary m-2" routerLink="lessons">Lessons</button>
+              <button *appRbacAllow="['ADMIN']" class="btn btn-primary m-2" routerLink="admin">Admin</button>
+            </ng-container>
+
           </ng-container>
 
         </div>
