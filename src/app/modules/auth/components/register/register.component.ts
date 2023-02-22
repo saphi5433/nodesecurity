@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
         console.log("User created successfully")
         this.router.navigateByUrl('/lessons')
       },
-      error => this.errors = error.error.passwordErrors
+      error => console.log("Utente già esistente")
     )
   }
 

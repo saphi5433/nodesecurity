@@ -10,11 +10,13 @@ const PRIVATE_KEY = fs.readFileSync('cert/key.pem')
 const PUBLIC_KEY = fs.readFileSync('cert/certificate.pem')
 const SESSION_DURATION = 60 * 30
 
-const createSessionToken = async userId => {
-  return signJwt({}, PRIVATE_KEY, {
+const createSessionToken = async user => {
+  return signJwt({
+    roles: user.roles
+  }, PRIVATE_KEY, {
     algorithm: 'RS512',
     expiresIn: SESSION_DURATION,
-    subject: userId
+    subject: user.id.toString()
   })
 }
 

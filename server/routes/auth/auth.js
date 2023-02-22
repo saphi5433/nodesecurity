@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const validatePassword = require("../../data/password-validation");
 const {db} = require("../../data/db");
-const {createUserAndSession, loginAndBuildResponse, setCrsfToken} = require("./auth.utils");
+const {createUserAndSession, loginAndBuildResponse} = require("./auth.utils");
 
 /* GET home page. */
 router.post('/register', function (req, res) {
@@ -25,12 +25,9 @@ router.post('/register', function (req, res) {
 router.post('/login', function (req, res) {
   const credentials = req.body;
 
+
   const user = db.findUserByEmail(credentials.email)
 
-  setCrsfToken(res)
-    .catch(err => {
-      console.log("error: setting crsf token", err)
-    })
 
   if (!user) {
     res.sendStatus(403)
